@@ -43,7 +43,7 @@ argparse_error(struct argparse *self, const struct argparse_option *opt,
     } else {
         fprintf(stderr, "error: option `-%c` %s\n", opt->short_name, reason);
     }
-    exit(EXIT_FAILURE);
+    /* exit(EXIT_FAILURE); */
 }
 
 static int
@@ -274,7 +274,7 @@ unknown:
         fprintf(stderr, "error: unknown option `%s`\n", self->argv[0]);
         argparse_usage(self);
         if (!(self->flags & ARGPARSE_IGNORE_UNKNOWN_ARGS)) {
-            exit(EXIT_FAILURE);
+            return (EXIT_FAILURE);
         }
     }
 
@@ -390,6 +390,6 @@ int
 argparse_help_cb(struct argparse *self, const struct argparse_option *option)
 {
     argparse_help_cb_no_exit(self, option);
-    exit(EXIT_SUCCESS);
+    return (EXIT_SUCCESS);
 }
 
