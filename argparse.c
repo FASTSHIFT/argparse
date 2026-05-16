@@ -98,6 +98,7 @@ argparse_getvalue(struct argparse *self, const struct argparse_option *opt,
             argparse_error(self, opt, "expects an integer value", flags);
         break;
     case ARGPARSE_OPT_FLOAT:
+#ifndef ARGPARSE_DISABLE_FLOAT
         errno = 0;
         if (self->optvalue) {
             *(float *)opt->value = strtof(self->optvalue, (char **)&s);
@@ -112,6 +113,9 @@ argparse_getvalue(struct argparse *self, const struct argparse_option *opt,
             argparse_error(self, opt, "numerical result out of range", flags);
         if (s[0] != '\0') // no digits or contains invalid characters
             argparse_error(self, opt, "expects a numerical value", flags);
+#else
+        argparse_error(self, opt, "float option disabled", flags);
+#endif
         break;
     default:
         return -1;
